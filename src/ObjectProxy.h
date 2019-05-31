@@ -52,7 +52,7 @@ namespace internal {
                    , std::string objectPath );
 
         MethodCall createMethodCall(const std::string& interfaceName, const std::string& methodName) override;
-        AsyncMethodCall createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName) override;
+        AsyncMethodCall createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName, const uint64_t timeout) override;
         MethodReply callMethod(const MethodCall& message) override;
         void callMethod(const AsyncMethodCall& message, async_reply_handler asyncReplyCallback) override;
 

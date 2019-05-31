@@ -138,6 +138,8 @@ std::tuple<std::string, std::string> ProxyGenerator::processMethods(const Nodes&
 
         bool dontExpectReply{false};
         bool async{false};
+	std::string timeoutValue{"0"};
+
         Nodes annotations = (*method)["annotation"];
         for (const auto& annotation : annotations)
         {
@@ -146,6 +148,13 @@ std::tuple<std::string, std::string> ProxyGenerator::processMethods(const Nodes&
             else if (annotation->get("name") == "org.freedesktop.DBus.Method.Async"
                      && (annotation->get("value") == "client" || annotation->get("value") == "clientserver"))
                 async = true;
+
+           if ((annotation->get("name") == "org.freedesktop.DBus.Method.Async") && (annotation->get("value") == "client")
+                     && (annotation->get("timeout") != ""))
+           {
+                timeoutValue = annotation->get("timeout");
+           }
+
         }
         if (dontExpectReply && outArgs.size() > 0)
         {
@@ -168,8 +177,18 @@ std::tuple<std::string, std::string> ProxyGenerator::processMethods(const Nodes&
             definitionSS << tab << tab << retType << " result;" << endl;
         }
 
-        definitionSS << tab << tab << "object_.callMethod" << (async ? "Async" : "") << "(\"" << name << "\")"
-                        ".onInterface(interfaceName)";
+        definitionSS << tab << tab << "object_.callMethod" << (async ? "Async" : "") << "(\"" << name << "\"";
+
+        if (async)
+        {
+            definitionSS << ", " << timeoutValue << ")";
+        }
+        else
+        {
+            definitionSS << ")";
+        }
+
+	definitionSS << ".onInterface(interfaceName)";
 
         if (inArgs.size() > 0)
         {

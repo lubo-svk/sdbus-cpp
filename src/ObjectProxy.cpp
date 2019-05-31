@@ -61,9 +61,9 @@ MethodCall ObjectProxy::createMethodCall(const std::string& interfaceName, const
     return connection_->createMethodCall(destination_, objectPath_, interfaceName, methodName);
 }
 
-AsyncMethodCall ObjectProxy::createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName)
+	AsyncMethodCall ObjectProxy::createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName, const uint64_t timeout)
 {
-    return AsyncMethodCall{ObjectProxy::createMethodCall(interfaceName, methodName)};
+    return AsyncMethodCall{ObjectProxy::createMethodCall(interfaceName, methodName), timeout};
 }
 
 MethodReply ObjectProxy::callMethod(const MethodCall& message)

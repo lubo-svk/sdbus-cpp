@@ -84,7 +84,7 @@ namespace sdbus {
         *
         * @throws sdbus::Error in case of failure
         */
-        virtual AsyncMethodCall createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName) = 0;
+	    virtual AsyncMethodCall createAsyncMethodCall(const std::string& interfaceName, const std::string& methodName, const uint64_t timeout) = 0;
 
         /*!
         * @brief Calls method on the proxied D-Bus object
@@ -187,7 +187,7 @@ namespace sdbus {
         *
         * @throws sdbus::Error in case of failure
         */
-        AsyncMethodInvoker callMethodAsync(const std::string& methodName);
+        AsyncMethodInvoker callMethodAsync(const std::string& methodName, const uint64_t timeout);
 
         /*!
         * @brief Registers signal handler for a given signal of the proxied D-Bus object
@@ -255,9 +255,9 @@ namespace sdbus {
         return MethodInvoker(*this, methodName);
     }
 
-    inline AsyncMethodInvoker IObjectProxy::callMethodAsync(const std::string& methodName)
+    inline AsyncMethodInvoker IObjectProxy::callMethodAsync(const std::string& methodName, const uint64_t timeout)
     {
-        return AsyncMethodInvoker(*this, methodName);
+        return AsyncMethodInvoker(*this, methodName, timeout);
     }
 
     inline SignalSubscriber IObjectProxy::uponSignal(const std::string& signalName)

@@ -484,15 +484,16 @@ namespace sdbus {
     }
 
 
-    inline AsyncMethodInvoker::AsyncMethodInvoker(IObjectProxy& objectProxy, const std::string& methodName)
+    inline AsyncMethodInvoker::AsyncMethodInvoker(IObjectProxy& objectProxy, const std::string& methodName, const uint64_t timeout)
         : objectProxy_(objectProxy)
         , methodName_(methodName)
+		, timeout_(timeout)
     {
     }
 
     inline AsyncMethodInvoker& AsyncMethodInvoker::onInterface(const std::string& interfaceName)
     {
-        method_ = objectProxy_.createAsyncMethodCall(interfaceName, methodName_);
+        method_ = objectProxy_.createAsyncMethodCall(interfaceName, methodName_, timeout_);
 
         return *this;
     }
