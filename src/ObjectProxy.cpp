@@ -137,15 +137,15 @@ int ObjectProxy::sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *u
 	std::cout << "async reply 4" << std::endl;
     const auto* error = sd_bus_message_get_error(sdbusMessage);
 	std::cout << "async reply 5" << std::endl;
-    if (error == nullptr)
+    //if (error == nullptr)
     {
         asyncReplyUserData->callback(message, nullptr);
     }
-    else
-    {
-        sdbus::Error exception(error->name, error->message);
-        asyncReplyUserData->callback(message, &exception);
-    }
+    //else
+    //{
+    //    sdbus::Error exception(error->name, error->message);
+    //    asyncReplyUserData->callback(message, &exception);
+   // }
 }
 
 int ObjectProxy::sdbus_signal_callback(sd_bus_message *sdbusMessage, void *userData, sd_bus_error */*retError*/)
