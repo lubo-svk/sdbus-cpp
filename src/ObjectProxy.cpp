@@ -32,7 +32,6 @@
 #include <cassert>
 #include <chrono>
 #include <thread>
-#include <iostream>
 
 namespace sdbus { namespace internal {
 
@@ -125,18 +124,14 @@ void ObjectProxy::registerSignalHandlers(sdbus::internal::IConnection& connectio
 
 int ObjectProxy::sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError)
 {
-	// We are assuming the ownership of the async reply handler pointer passed here
-	std::cout << "async reply 0" << std::endl;
+    // We are assuming the ownership of the async reply handler pointer passed here
     std::unique_ptr<AsyncReplyUserData> asyncReplyUserData{static_cast<AsyncReplyUserData*>(userData)};
-	std::cout << "async reply 1" << std::endl;
     assert(asyncReplyUserData != nullptr);
-	std::cout << "async reply 2" << std::endl;
     assert(asyncReplyUserData->callback);
-	std::cout << "async reply 3" << std::endl;
+
     MethodReply message{sdbusMessage, &asyncReplyUserData->proxy.connection_->getSdBusInterface()};
-	std::cout << "async reply 4" << std::endl;
+
     const auto* error = sd_bus_message_get_error(sdbusMessage);
-	std::cout << "async reply 5" << std::endl;
     if (error == nullptr)
     {
         asyncReplyUserData->callback(message, nullptr);
