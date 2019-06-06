@@ -175,9 +175,7 @@ namespace sdbus {
         using Message::Message;
         AsyncMethodCall() = default; // Fixes gcc 6.3 error (default c-tor is not imported in above using declaration)
         AsyncMethodCall(MethodCall&& call) noexcept;
-        void send(void* callback, void* userData) const;
-    private:
-	    const uint64_t timeout_;
+        void send(void* callback, void* userData, const uint64_t timeout) const;
     };
 
     class MethodReply : public Message
