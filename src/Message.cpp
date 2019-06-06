@@ -653,14 +653,14 @@ MethodReply MethodCall::createErrorReply(const Error& error) const
     return MethodReply{sdbusErrorReply, sdbus_, adopt_message};
 }
 
-AsyncMethodCall::AsyncMethodCall(MethodCall&& call) noexcept
-    : Message(std::move(call))
+	AsyncMethodCall::AsyncMethodCall(MethodCall&& call) noexcept
+	    : Message(std::move(call)), timeout_(120000000ul)
 {
 }
 
 void AsyncMethodCall::send(void* callback, void* userData) const
 {
-    auto r = sdbus_->sd_bus_call_async(nullptr, nullptr, (sd_bus_message*)msg_, (sd_bus_message_handler_t)callback, userData, 0);
+	auto r = sdbus_->sd_bus_call_async(nullptr, nullptr, (sd_bus_message*)msg_, (sd_bus_message_handler_t)callback, userData, timeout_);
     SDBUS_THROW_ERROR_IF(r < 0, "Failed to call method asynchronously", -r);
 }
 
