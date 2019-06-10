@@ -122,7 +122,7 @@ void ObjectProxy::registerSignalHandlers(sdbus::internal::IConnection& connectio
     }
 }
 
-int ObjectProxy::sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError)
+void ObjectProxy::sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError)
 {
     // We are assuming the ownership of the async reply handler pointer passed here
     std::unique_ptr<AsyncReplyUserData> asyncReplyUserData{static_cast<AsyncReplyUserData*>(userData)};

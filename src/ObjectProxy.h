@@ -69,7 +69,7 @@ namespace internal {
         };
 
         void registerSignalHandlers(sdbus::internal::IConnection& connection);
-        static int sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError);
+        static void sdbus_async_reply_handler(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError);
         static int sdbus_signal_callback(sd_bus_message *sdbusMessage, void *userData, sd_bus_error *retError);
 
     private:
